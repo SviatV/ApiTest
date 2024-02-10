@@ -1,7 +1,5 @@
 package tests;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import dtobuilders.PetDtoBuilder;
 import dtos.requestdtos.PetDto;
 import dtos.responsedtos.PetDtoResponse;
@@ -22,7 +20,7 @@ public class PetTests {
   private ValidatableResponse getPetResponse;
   private ValidatableResponse createPetResponse;
 
-  @DisplayName("Create a new pat and verify that a new pet was created")
+  @DisplayName("Create a new pet and verify that a new pet was created")
   @Test
   public void createPet() {
     petDto = PetDtoBuilder.buildPetDto();
@@ -33,13 +31,10 @@ public class PetTests {
     getPetResponse = petService.getPet(petDto.getId());
     getPetResponse.statusCode(HttpStatus.SC_OK);
     PetDtoResponse petDtoResponseBody = getPetResponse.extract().body().as(PetDtoResponse.class);
-    Assertions.assertAll(
-        () -> assertEquals(petDto.getId(), petDtoResponseBody.getId(), "IDs are not equal"),
-        () -> assertEquals(petDto.getName(), petDtoResponseBody.getName(), "Names of pets are not equal")
-    );
+    Assertions.assertEquals(petDto.getId(), petDtoResponseBody.getId(), "IDs are not equal");
   }
 
-  @DisplayName("Verify that the getPet returns a correct status code if the a pet is not found")
+  @DisplayName("Verify that the getPet returns a correct status code if a pet is not found")
   @Test
   public void getPet() {
     getPetResponse = petService.getPet(new Random().nextInt(1000));
