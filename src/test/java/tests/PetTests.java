@@ -42,7 +42,7 @@ public class PetTests {
   @DisplayName("Verify that the getPet returns a correct status code if the a pet is not found")
   @Test
   public void getPet() {
-    getPetResponse = petService.getPet(new Random().nextInt(100));
+    getPetResponse = petService.getPet(new Random().nextInt(1000));
     getPetResponse.statusCode(HttpStatus.SC_NOT_FOUND);
   }
 
