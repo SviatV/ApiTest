@@ -6,9 +6,11 @@ import lombok.*;
 
 import java.util.ArrayList;
 
-@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+@Data
 
 public class PetDto {
 
@@ -17,5 +19,5 @@ public class PetDto {
   private String name;
   private ArrayList<String> photoUrls;
   private String status;
-  private ArrayList<TagDto> tagDtos;
+  private ArrayList<TagDto> tags;
 }

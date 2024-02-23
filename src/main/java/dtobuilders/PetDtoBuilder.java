@@ -16,7 +16,7 @@ public class PetDtoBuilder {
 
   static {
     PROPERTIES = new Properties();
-    try (InputStream inputStream = PetDtoBuilder.class.getClassLoader().getResourceAsStream("petdata.properties")){
+    try (InputStream inputStream = PetDtoBuilder.class.getClassLoader().getResourceAsStream("petdata.properties")) {
       if (inputStream != null) {
         PROPERTIES.load(inputStream);
       } else {
@@ -48,7 +48,7 @@ public class PetDtoBuilder {
             .category(categoryDto)
             .name(PROPERTIES.getProperty("pet.name"))
             .photoUrls(photoUrls)
-            .tagDtos(tagDtos)
+            .tags(tagDtos)
             .status(PROPERTIES.getProperty("pet.status"))
             .build();
   }
@@ -74,7 +74,7 @@ public class PetDtoBuilder {
             .category(categoryDto)
             .name(PROPERTIES.getProperty("pet.nameUpdated"))
             .photoUrls(photoUrls)
-            .tagDtos(tagDtos)
+            .tags(tagDtos)
             .status(PROPERTIES.getProperty("pet.status"))
             .build();
   }

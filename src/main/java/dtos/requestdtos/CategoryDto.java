@@ -3,9 +3,10 @@ package dtos.requestdtos;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 @Builder
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)

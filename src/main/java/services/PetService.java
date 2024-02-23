@@ -1,40 +1,34 @@
 package services;
 
-import static io.restassured.RestAssured.given;
-
 import dtos.requestdtos.PetDto;
+import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
+import io.restassured.specification.SpecificationQuerier;
 
 public class PetService {
-  private static final String BASE_URI = "https://petstore.swagger.io/v2/";
-  private static final String BASE_PATH = "/pet";
 
-  private RequestSpecification requestSpecification;
-
-  public void serviceApi() {
-    requestSpecification = given()
-            .baseUri(BASE_URI)
-            .contentType(ContentType.JSON)
-            .log().all();
-  }
+  private RequestSpecification requestSpecification = RestAssured.given()
+          .baseUri(System.getProperty("petstore.baseURI"))
+          .basePath(System.getProperty("pet.basePath"))
+          .contentType(ContentType.JSON)
+          .log().all();
 
   public ValidatableResponse createPet(PetDto petDto) {
-    serviceApi();
-    return given(requestSpecification)
-            .basePath(BASE_PATH)
+    return RestAssured.given(requestSpecification)
             .body(petDto)
             .when()
             .post()
             .then()
+            .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schemas/CreatePetSchema.json"))
             .log().all();
   }
 
   public ValidatableResponse getPet(int id) {
-    serviceApi();
-    return given(requestSpecification)
-            .basePath(BASE_PATH + "/" + id)
+    return RestAssured.given(requestSpecification)
+            .basePath(SpecificationQuerier.query(requestSpecification).getBasePath() + id)
             .when()
             .get()
             .then()
@@ -43,10 +37,9 @@ public class PetService {
   }
 
   public ValidatableResponse deletePet(int id, String apiKey) {
-    serviceApi();
-    return given(requestSpecification)
+    return RestAssured.given(requestSpecification)
             .header("api_key", apiKey)
-            .basePath(BASE_PATH + "/" + id)
+            .basePath(SpecificationQuerier.query(requestSpecification).getBasePath() + id)
             .when()
             .delete()
             .then()
@@ -55,9 +48,7 @@ public class PetService {
   }
 
   public ValidatableResponse putPet(PetDto petDto) {
-    serviceApi();
-    return given(requestSpecification)
-            .basePath(BASE_PATH)
+    return RestAssured.given(requestSpecification)
             .body(petDto)
             .when()
             .post()
