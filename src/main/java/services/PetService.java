@@ -6,7 +6,6 @@ import io.restassured.http.ContentType;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
-import io.restassured.specification.SpecificationQuerier;
 
 public class PetService {
 
@@ -28,9 +27,8 @@ public class PetService {
 
   public ValidatableResponse getPet(int id) {
     return RestAssured.given(requestSpecification)
-            .basePath(SpecificationQuerier.query(requestSpecification).getBasePath() + id)
             .when()
-            .get()
+            .get(String.valueOf(id))
             .then()
             .log()
             .all();
@@ -39,9 +37,8 @@ public class PetService {
   public ValidatableResponse deletePet(int id, String apiKey) {
     return RestAssured.given(requestSpecification)
             .header("api_key", apiKey)
-            .basePath(SpecificationQuerier.query(requestSpecification).getBasePath() + id)
             .when()
-            .delete()
+            .delete(String.valueOf(id))
             .then()
             .log()
             .all();
